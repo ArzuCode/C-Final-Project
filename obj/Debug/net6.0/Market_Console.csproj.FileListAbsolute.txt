@@ -1,0 +1,17 @@
+C:\Users\user\Desktop\Market_Console\bin\Debug\net6.0\Market_Console.exe
+C:\Users\user\Desktop\Market_Console\bin\Debug\net6.0\Market_Console.deps.json
+C:\Users\user\Desktop\Market_Console\bin\Debug\net6.0\Market_Console.runtimeconfig.json
+C:\Users\user\Desktop\Market_Console\bin\Debug\net6.0\Market_Console.dll
+C:\Users\user\Desktop\Market_Console\bin\Debug\net6.0\Market_Console.pdb
+C:\Users\user\Desktop\Market_Console\bin\Debug\net6.0\ConsoleTables.dll
+C:\Users\user\Desktop\Market_Console\obj\Debug\net6.0\Market_Console.csproj.AssemblyReference.cache
+C:\Users\user\Desktop\Market_Console\obj\Debug\net6.0\Market_Console.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Desktop\Market_Console\obj\Debug\net6.0\Market_Console.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\Market_Console\obj\Debug\net6.0\Market_Console.AssemblyInfo.cs
+C:\Users\user\Desktop\Market_Console\obj\Debug\net6.0\Market_Console.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\Market_Console\obj\Debug\net6.0\Market_Console.csproj.CopyComplete
+C:\Users\user\Desktop\Market_Console\obj\Debug\net6.0\Market_Console.dll
+C:\Users\user\Desktop\Market_Console\obj\Debug\net6.0\refint\Market_Console.dll
+C:\Users\user\Desktop\Market_Console\obj\Debug\net6.0\Market_Console.pdb
+C:\Users\user\Desktop\Market_Console\obj\Debug\net6.0\Market_Console.genruntimeconfig.cache
+C:\Users\user\Desktop\Market_Console\obj\Debug\net6.0\ref\Market_Console.dll

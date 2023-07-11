@@ -11,4 +11,9 @@
     <PackageReference Include="ConsoleTables" Version="2.4.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Common\Enums\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>

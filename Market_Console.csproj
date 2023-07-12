@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Enums\" />
     <Folder Include="Services\" />
   </ItemGroup>
 

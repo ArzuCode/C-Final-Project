@@ -9,6 +9,9 @@ namespace Market_Console.Common.Enums
     public enum Category
     {
         // Product Categories
+        Beverage,
+        Meat,
+        Bakery,
 
 
     }

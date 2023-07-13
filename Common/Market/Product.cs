@@ -14,7 +14,16 @@ namespace Market_Console.Common.Market
         public decimal Price { get; set; }
         public Category Category { get; set; }
         public int Quantity { get; set; }
-        public int ProductsCode { get; set; }
+        public int Id { get; set; }
 
+        internal void Add(Product product)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal object Max(Func<object, object> value)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

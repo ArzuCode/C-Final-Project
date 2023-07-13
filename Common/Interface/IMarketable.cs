@@ -38,13 +38,5 @@ namespace Market_Console.Common.Interface
         public void SearchingAndReturningProducts();
 
 
-
-
-
-
-
-
-
-
     }
 }

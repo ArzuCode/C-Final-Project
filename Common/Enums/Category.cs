@@ -12,7 +12,8 @@ namespace Market_Console.Common.Enums
         Beverage,
         Meat,
         Bakery,
-
+        OfficeSupplies,
+        Sweets,
 
     }
 }

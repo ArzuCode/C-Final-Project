@@ -9,34 +9,24 @@ namespace Market_Console.Common.Interface
 {
     public interface IMarketable
     {
-        public void Sales();
+        // PRODUCT
+        public List<Product> Products { get; }
+        public void AddProduct();
+        public void EditProductInfo(string ProductCode);
+        public void DeleteProduct(string ProductCode);
+        public void GetProductByCategory(string category);
+        public void GetProductByPriceRange(string minPrice, string maxPrice);
+        public List<Product> GetProductByName(string productName);
 
-        public void Products();
-
-        public void AddSales();
-
-        public void ReturnSale();
-
-        public void Generalsalerefunds();
-
-        public void ReturnDateRange();
-
-        public void ReturnThatDate();
-
-        public void GivenAmountRange();
-
-        public void ReturnGivenNumber();
-
-        public void AddNewProduct();
-
-        public void ChangeProducts();
-
-        public void ReturnProductCategory();
-
-        public void ReturnPriceRange();
-
-        public void SearchingAndReturningProducts();
-
+        // SALE
+        public List<Sale> Sales { get; set; }
+        public void AddSale();
+        public void DeleteSaleItem(string saleNo);
+        public void ShowSales(List<Sale> sales);
+        public List<Sale> GetSalesByDateRange(DateTime startDate, DateTime endDate);
+        public List<Sale> GetSalesByDay(DateTime day);
+        public List<Sale> GetSalesByAmountRange(double mnAmount, double mxAmount);
+        public Sale GetSalesBySaleNo(string SaleNo);
 
     }
 }

@@ -8,9 +8,9 @@ namespace Market_Console.Common.Market
 {
     public class Sale
     {
-        public int Number { get; set; }
-        public decimal Amount { get; set; }
-        public int SaleItems { get; set; }
+        public int SaleNo { get; set; }
+        public double Amount { get; set; }
+        public List<SaleItem> SaleItems { get; set; }
         public DateTime Date { get; set; }
     }
 }

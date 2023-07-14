@@ -11,11 +11,11 @@ namespace Market_Console.Common.Market
     public class Product
     {
         public string Name { get; set; }
-        public decimal Price { get; set; }
+        public double Price { get; set; }
         public Category Category { get; set; }
         public int Quantity { get; set; }
-        public int Id { get; set; }
+        public string ProductCode;
 
-       
+
     }
 }

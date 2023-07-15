@@ -344,7 +344,268 @@ namespace Market_Console.Services
 
         //---------------Sale Metods-----------------
 
-       
+        #region Sale
+
+        /// <summary>
+        /// Creates Sale, adds Sale Items untill click SpaceBar button
+        /// </summary>
+        public void AddSale()
+        {
+            Sale sale = new Sale();
+            sale.SaleNo = SaleId++;
+            sale.SaleItems = new List<SaleItem>();
+            ConsoleKeyInfo key = default(ConsoleKeyInfo);
+            int i = 1;
+            do
+            {
+                SaleItem item = new SaleItem();
+
+                // --------------- input PRODUCT CODE -------------------
+
+                Console.Write($"\n{i} Product code: ");
+                string prodCode = Console.ReadLine();
+                Product saledProd = Products.Find(p => p.ProductCode == prodCode);
+                if (saledProd != null)
+                {
+                    // --------------- input SALE İTEM COUNT -------------------
+
+                    Console.Write("Product quantity: ");
+                    string ItemCount = Console.ReadLine();
+                    int SaleItemCount = To<int>(ItemCount);
+
+                    // --------------- CHECK COUNT IS ZERO OR NOT -------------------
+
+                    while (SaleItemCount == 0)
+                    {
+                        Console.Write("Product number cannot be 0.Enter again: ");
+                        ItemCount = Console.ReadLine();
+                        SaleItemCount = To<int>(ItemCount);
+                    }
+
+                    // --------------- ASSIGN SALE ITEM DATA -------------------
+
+                    item.ItemNo = i;
+                    item.product = saledProd;
+                    if (saledProd.Quantity == 0)
+                    {
+                        Console.WriteLine($"{prodCode} Product with code is out of stock!");
+                        continue;
+                    }
+                    else if (saledProd.Quantity >= SaleItemCount)
+                    {
+                        item.ProductCount = SaleItemCount;
+                        saledProd.Quantity -= SaleItemCount;
+                        i++;
+                        sale.Amount += saledProd.Price * item.ProductCount;
+                        sale.SaleItems.Add(item);
+                        Console.WriteLine(saledProd.Name);
+                    }
+                    else
+                    {
+                        // -----------------------------------> ASKS USER IF WANTS TO BUY LEFT PRODUCT
+                        Console.WriteLine($"It is not possible to sell up to the amount entered. Number of products available: {saledProd.Quantity} Should it be sold up to ? ");
+                        Console.WriteLine("Click the \"Enter\" button to confirm, otherwise click the other desired button.");
+                        if (Console.ReadKey().Key == ConsoleKey.Enter)
+                        {
+                            item.ProductCount = saledProd.Quantity;
+                            saledProd.Quantity = 0;
+                            i++;
+                            sale.Amount += saledProd.Price * item.ProductCount;
+                            sale.SaleItems.Add(item);
+                            Console.WriteLine(saledProd.Name);
+                        }
+                        else
+                        {
+                            Console.WriteLine("\nThis product is not sold.");
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"{prodCode} Product with code is not available!");
+                    continue;
+                }
+                Console.WriteLine("Click the \"Sapce\" button to stop the process and any other button to continue.");
+                key = Console.ReadKey();
+            } while (key.Key != ConsoleKey.Spacebar);
+
+            sale.Date = DateTime.Now;
+
+            if (sale.SaleItems.Count > 0)
+            {
+                Sales.Add(sale);
+                showSale(sale.SaleNo.ToString());
+                Console.WriteLine("Sale added!");
+            }
+            else Console.WriteLine("No sale added!");
+        }
+
+        /// <summary>
+        /// Show Sale, including Sale No, Sale Date, Sale Items, Each Saled Product count, Prices, Amount
+        /// </summary>
+        /// <param name="SaleNo">Sale Number</param>
+        public void showSale(string SaleNo)
+        {
+            Sale sale = Sales.Find(s => s.SaleNo.ToString() == SaleNo);
+            try
+            {
+                if (sale != null)
+                {
+                    Console.WriteLine();
+                    if (sale.SaleItems.Count > 0)
+                    {
+                        var table = new ConsoleTable("No", "Item No", "Product Name", "Count", "Price", "Amount");
+                        int i = 1;
+                        foreach (var item in sale.SaleItems)
+                        {
+                            table.AddRow(i, item.ItemNo, item.product.Name, item.ProductCount, item.product.Price, (item.ProductCount * item.product.Price).ToString("0.00"));
+                            i++;
+                        }
+                        sale.Amount = sale.SaleItems.Sum(s => s.ProductCount * s.product.Price);
+
+                        table.AddRow("", "", "", "", "", "");
+                        table.AddRow("Total Amount:", "", "", "", "", sale.Amount.ToString("0.00"));
+                        table.AddRow("Date: ", sale.Date, "", "", "Sale No:", sale.SaleNo);
+
+                        table.Write((Format.Minimal));
+
+                    }
+                    else Console.WriteLine("The sales list is empty!");
+                }
+                else throw new SaleException(SaleNo);
+            }
+            catch (SaleException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Decrease Sale Item Count by given Count
+        /// </summary>
+        /// <param name="saleNo">Sale number</param>
+        public void DeleteSaleItem(string saleNo)
+        {
+            Sale sale = Sales.Find(s => s.SaleNo.ToString() == saleNo);
+            if (sale != null)
+            {
+                // ---------------------------  Input ItemNo To delete SaleItem -----------------------
+
+                Console.Write("Product number to be removed: ");
+                string prodNo = Console.ReadLine();
+                int No = To<int>(prodNo);
+                SaleItem item = sale.SaleItems.Find(s => s.ItemNo == No);
+                if (item != null)
+                {
+                    // ---------------------------  Input Count To delete SaleItem -----------------------
+
+                    Console.Write("The quantity of products to be removed: ");
+                    string count = Console.ReadLine();
+                    int delProdCount = To<int>(count);
+
+                    if (delProdCount <= item.ProductCount && delProdCount != 0)
+                    {
+                        item.ProductCount -= delProdCount;
+                        Products.Find(p => p.ProductCode == item.product.ProductCode).Quantity += delProdCount;
+
+                        if (item.ProductCount == 0)
+                        {
+                            sale.SaleItems.Remove(item);
+                        }
+
+                        Console.WriteLine("The product has been removed from sale.");
+                        showSale(saleNo);
+                    }
+                    else if (delProdCount == 0) Console.WriteLine("The number entered is 0. The product was not deleted.");
+                    else Console.WriteLine($"{count} sold less than quantity.");
+                }
+                else Console.WriteLine("The product number is not entered correctly!");
+            }
+            else throw new SaleException();
+        }
+
+        /// <summary>
+        /// Delete Sale from Sale List
+        /// </summary>
+        /// <param name="saleNo">Sale number</param>
+        public void DeleteSale(string saleNo)
+        {
+            Sale sale = Sales.Find(s => s.SaleNo.ToString() == saleNo);
+            if (sale != null)
+            {
+                List<SaleItem> saleItems = sale.SaleItems;
+                foreach (SaleItem item in saleItems)
+                {
+                    Products.Find(p => p.ProductCode == item.product.ProductCode).Quantity += item.ProductCount;
+                }
+                Sales.Remove(sale);
+            }
+            else throw new SaleException(saleNo);
+        }
+
+        /// <summary>
+        /// Finds Sales by given Amount range
+        /// </summary>
+        /// <param name="mnAmount">Minimum amount</param>
+        /// <param name="mxAmount">Maximum amount</param>
+        /// <returns>Sale list by Amount range</returns>
+        public List<Sale> GetSalesByAmountRange(double mnAmount, double mxAmount)
+        {
+            return Sales.FindAll(s => s.Amount >= mnAmount && s.Amount <= mxAmount);
+        }
+
+        /// <summary>
+        /// Finds Sales between two date
+        /// </summary>
+        /// <param name="startDate">First Sale date</param>
+        /// <param name="endDate">Last Sale date</param>
+        /// <returns>Sale list by Date range</returns>
+        public List<Sale> GetSalesByDateRange(DateTime startDate, DateTime endDate)
+        {
+            return Sales.FindAll(s => s.Date.Date >= startDate.Date && s.Date.Date <= endDate.Date);
+        }
+
+        /// <summary>
+        /// Finds Sales by given Date
+        /// </summary>
+        /// <param name="day">Sale Date</param>
+        /// <returns>Sale list by date</returns>
+        public List<Sale> GetSalesByDay(DateTime day)
+        {
+            return Sales.FindAll(s => s.Date.Date == day.Date);
+        }
+
+        /// <summary>
+        /// Finds Sale by given Sale number
+        /// </summary>
+        /// <param name="SaleNo">Sale number</param>
+        /// <returns>Sale by SaleNo</returns>
+        public Sale GetSalesBySaleNo(string SaleNo)
+        {
+            return Sales.Find(s => s.SaleNo.ToString() == SaleNo);
+        }
+
+        /// <summary>
+        /// Show Sales by given Sale List
+        /// </summary>
+        /// <param name="sales">Sale List</param>
+        public void ShowSales(List<Sale> sales)
+        {
+            if (sales.Count > 0)
+            {
+                var table = new ConsoleTable("No", "Sale No", "Product quantity", "Amount", "Date");
+                int i = 1;
+                foreach (Sale item in sales)
+                {
+                    table.AddRow(i, item.SaleNo, item.SaleItems.Count, item.Amount.ToString("0.00"), item.Date);
+                    i++;
+                }
+                table.Write();
+            }
+            else Console.WriteLine("The sales list is empty.");
+        }
+        #endregion
+
 
     }
 }

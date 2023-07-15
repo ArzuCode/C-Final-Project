@@ -9,7 +9,7 @@ namespace Market_Console.Common.Market
     public class SaleItem
     {
         public int ItemNo { get; set; }
-        public int Productcount { get; set; }
+        public int ProductCount { get; set; }
         public Product product { get; set; }
         
     }

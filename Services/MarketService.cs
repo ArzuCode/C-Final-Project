@@ -12,8 +12,8 @@ using System.Threading.Tasks;
 
 namespace Market_Console.Services
 
-                       //----Market management system----
-                      //-----Program for managing products in the market----
+//----Market management system----
+//-----Program for managing products in the market----
 {
     public class MarketService : IMarketable
     {
@@ -22,7 +22,7 @@ namespace Market_Console.Services
         public List<Sale> Sales { get; set; }
         public List<Product> Products { get; set; }
 
-        
+
         public MarketService()
         {
             Console.OutputEncoding = Encoding.UTF8;
@@ -70,45 +70,87 @@ namespace Market_Console.Services
         List<Product> _products = new List<Product> {
             new Product{
                Name="Coca-Cola",
-               Price=14.85,
+               Price=1.50,
                Category=Category.Beverage,
-               Quantity=100,
+               Quantity=300,
                ProductCode="009068"
             },
             new Product{
                Name="Sprite",
-               Price=2.60,
+               Price=2.10,
                Category=Category.Beverage,
                Quantity=250,
                ProductCode="074084"
             },
             new Product{
                Name="Twix",
-               Price=30.40,
+               Price=1.40,
                Category=Category.Sweets,
                Quantity=142,
                ProductCode="113175"
             },
             new Product{
                Name="Pensil",
-               Price=1.10,
+               Price=0.50,
                Category=Category.OfficeSupplies,
-               Quantity=50,
+               Quantity=55,
                ProductCode="005631"
-            }
+            },
+            new Product{
+               Name="Book",
+               Price=5.50,
+               Category=Category.OfficeSupplies,
+               Quantity=20,
+               ProductCode="005852"
+            },
+            new Product{
+               Name="Fish",
+               Price=11,
+               Category=Category.Meat,
+               Quantity=50,
+               ProductCode="015985"
+            },
+            new Product{
+               Name="Bread",
+               Price=0.70,
+               Category=Category.Bakery,
+               Quantity=100,
+               ProductCode="007541"
+            },
+            new Product{
+               Name="Snickers",
+               Price=2.80,
+               Category=Category.Sweets,
+               Quantity=85,
+               ProductCode="056329"
+            },
+            new Product{
+               Name="Chicken",
+               Price=6.50,
+               Category=Category.Meat,
+               Quantity=15,
+               ProductCode="254896"
+            },
+            new Product{
+               Name="Wishky",
+               Price=35,
+               Category=Category.Beverage,
+               Quantity=40,
+               ProductCode="356821"
+            },
         };
 
-          # region Check Is Number
-          /// <summary>
-          /// Converts string value to Number type
-          /// </summary>
-          /// <typeparam name="T"></typeparam>
-          /// <param name="value"></param>
-          /// <returns></returns>
-          public static T To<T>(string value)
-          {
+        #region Check Is Number
+        /// <summary>
+        /// Converts string value to Number type
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static T To<T>(string value)
+        {
             bool converted = false;
-            T number = default(T);
+            T number = default;
             while (!converted)
             {
                 try
@@ -123,8 +165,8 @@ namespace Market_Console.Services
                     value = Console.ReadLine();
                 }
             }
-              return number;
-          }
+            return number;
+        }
 
         #endregion
 
@@ -182,7 +224,7 @@ namespace Market_Console.Services
         /// Edit existing product data 
         /// </summary>
         /// <param name="ProductCode">Product Code</param>
-        public void EditProdInfo(string ProductCode)
+        public void EditProductInfo(string ProductCode)
         {
 
             Product prod = Products.Find(p => p.ProductCode == ProductCode);
@@ -354,7 +396,7 @@ namespace Market_Console.Services
             Sale sale = new Sale();
             sale.SaleNo = SaleId++;
             sale.SaleItems = new List<SaleItem>();
-            ConsoleKeyInfo key = default(ConsoleKeyInfo);
+            ConsoleKeyInfo key = default;
             int i = 1;
             do
             {
@@ -467,7 +509,7 @@ namespace Market_Console.Services
                         table.AddRow("Total Amount:", "", "", "", "", sale.Amount.ToString("0.00"));
                         table.AddRow("Date: ", sale.Date, "", "", "Sale No:", sale.SaleNo);
 
-                        table.Write((Format.Minimal));
+                        table.Write(Format.Minimal);
 
                     }
                     else Console.WriteLine("The sales list is empty!");
@@ -611,5 +653,5 @@ namespace Market_Console.Services
 }
 
 
-     
-    
+
+

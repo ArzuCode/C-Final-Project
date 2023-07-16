@@ -64,7 +64,7 @@ namespace Market_Console
                 {
                     converted = false;
                     Console.WriteLine("You have not entered the date correctly. Try again!");
-                    Console.Write("Date (dd.MM.yyyy) : ");
+                    Console.Write("Date (dd.MM.yyyy HH:mm:ss) : ");
                     value = Console.ReadLine();
                 }
             }
@@ -385,6 +385,7 @@ namespace Market_Console
             }
             catch (SaleException ex)
             {
+
                 Console.WriteLine(ex.Message);
             }
             showSaleChoices();

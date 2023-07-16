@@ -32,39 +32,6 @@ namespace Market_Console.Services
             // ====================== Default filled PRODUCT List ==========================
             Products = _products;
 
-            // ====================== Default filled SALE List ==========================
-            //Sales = new List<Sale> {
-            //    new Sale{
-            //        SaleNo=SaleId++,
-            //        SaleItems = new List<SaleItem>
-            //        {
-            //            new SaleItem
-            //            {
-            //                No=1,
-            //                product=Products.Find(p=>p.ProductCode=="009068"),
-            //                prodCount=10
-            //            }
-
-            //        }
-            //        ,date=new DateTime(2020,11,20),
-            //        Amount= Products.Find(p=>p.ProductCode=="009068").Price*10
-            //    },
-            //    new Sale{
-            //        SaleNo=SaleId++,
-            //        SaleItems = new List<SaleItem>
-            //        {
-            //            new SaleItem
-            //            {
-            //                No=1,
-            //                product = Products.Find(p=>p.ProductCode=="005631"),
-            //                prodCount=20
-            //            }
-
-            //        }
-            //        ,date=new DateTime(2020,11,22),
-            //        Amount= Products.Find(p=>p.ProductCode=="005631").Price*20
-            //    }
-            //};
 
         }
         List<Product> _products = new List<Product> {
@@ -573,16 +540,23 @@ namespace Market_Console.Services
         public void DeleteSale(string saleNo)
         {
             Sale sale = Sales.Find(s => s.SaleNo.ToString() == saleNo);
+            if (sale == null)
+            {
+                throw new SaleException(saleNo);
+            }
+            Sales.Remove(sale);
             if (sale != null)
             {
                 List<SaleItem> saleItems = sale.SaleItems;
                 foreach (SaleItem item in saleItems)
                 {
                     Products.Find(p => p.ProductCode == item.product.ProductCode).Quantity += item.ProductCount;
+
                 }
-                Sales.Remove(sale);
-            }
+                        
+            }            
             else throw new SaleException(saleNo);
+
         }
 
         /// <summary>
